@@ -758,6 +758,45 @@ def broker_callback(broker, para=None):
 
                 forward_url = "broker.html"
 
+    elif broker == "tradier":
+        # Tradier uses a Bearer access token from the API Settings dashboard
+        # For personal use, no OAuth flow needed - token is set in BROKER_API_SECRET env var
+        if request.method == "GET":
+            # Check for OAuth callback (if using OAuth flow)
+            code = request.args.get("code")
+            if code:
+                # OAuth flow - exchange code for token
+                auth_token, error_message = auth_function(code)
+            else:
+                # Direct token auth - use the env var token
+                auth_token, error_message = auth_function(None)
+        elif request.method == "POST":
+            # POST with access token from form
+            access_token = request.form.get("access_token") or request.form.get("token")
+            auth_token, error_message = auth_function(access_token)
+        else:
+            auth_token, error_message = auth_function(None)
+        forward_url = "broker.html"
+
+    elif broker == "alpaca":
+        # Alpaca uses API Key ID + Secret Key from env vars
+        # The auth_token parameter selects paper vs live trading
+        if request.method == "GET":
+            # Check for OAuth callback
+            code = request.args.get("code")
+            if code:
+                auth_token, error_message = auth_function(code)
+            else:
+                # Direct API key auth
+                mode = request.args.get("mode", "paper")  # paper or live
+                auth_token, error_message = auth_function(mode)
+        elif request.method == "POST":
+            mode = request.form.get("mode", "paper")
+            auth_token, error_message = auth_function(mode)
+        else:
+            auth_token, error_message = auth_function("paper")
+        forward_url = "broker.html"
+
     elif broker == "rmoney":
         try:
             # Extract session data from XTS OAuth callback

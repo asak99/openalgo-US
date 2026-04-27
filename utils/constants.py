@@ -16,6 +16,25 @@ EXCHANGE_NSE_INDEX = "NSE_INDEX"  # NSE Index
 EXCHANGE_BSE_INDEX = "BSE_INDEX"  # BSE Index
 EXCHANGE_CRYPTO = "CRYPTO"  # Crypto Exchanges (broker-agnostic; brexchange carries broker name)
 
+# US Market Exchange Types
+EXCHANGE_NYSE = "NYSE"  # New York Stock Exchange
+EXCHANGE_NASDAQ = "NASDAQ"  # NASDAQ
+EXCHANGE_AMEX = "AMEX"  # American Stock Exchange
+EXCHANGE_US_OPTIONS = "US_OPTIONS"  # US Options (CBOE, etc.)
+EXCHANGE_US_INDEX = "US_INDEX"  # US Indices (SPX, NDX, VIX, etc.)
+
+# Set of all US exchanges
+US_EXCHANGES: set[str] = {
+    EXCHANGE_NYSE,
+    EXCHANGE_NASDAQ,
+    EXCHANGE_AMEX,
+    EXCHANGE_US_OPTIONS,
+    EXCHANGE_US_INDEX,
+}
+
+# Set of US broker names
+US_BROKERS: set[str] = {"tradier", "alpaca"}
+
 # Set of all crypto-family exchanges.
 # Use `exchange in CRYPTO_EXCHANGES` instead of `exchange == "CRYPTO"` so that
 # onboarding a second crypto exchange (e.g. BINANCE, BYBIT) is a one-line change here.
@@ -43,6 +62,7 @@ FNO_EXCHANGES: set[str] = {
     EXCHANGE_CDS,
     EXCHANGE_BCD,
     EXCHANGE_NCDEX,
+    EXCHANGE_US_OPTIONS,
 } | CRYPTO_EXCHANGES
 
 VALID_EXCHANGES = [
@@ -57,6 +77,11 @@ VALID_EXCHANGES = [
     EXCHANGE_NSE_INDEX,
     EXCHANGE_BSE_INDEX,
     EXCHANGE_CRYPTO,
+    EXCHANGE_NYSE,
+    EXCHANGE_NASDAQ,
+    EXCHANGE_AMEX,
+    EXCHANGE_US_OPTIONS,
+    EXCHANGE_US_INDEX,
 ]
 
 # Product Types
@@ -93,6 +118,11 @@ EXCHANGE_BADGE_COLORS = {
     EXCHANGE_NSE_INDEX: "badge-accent",
     EXCHANGE_BSE_INDEX: "badge-neutral",
     EXCHANGE_CRYPTO: "badge-primary",
+    EXCHANGE_NYSE: "badge-info",
+    EXCHANGE_NASDAQ: "badge-accent",
+    EXCHANGE_AMEX: "badge-secondary",
+    EXCHANGE_US_OPTIONS: "badge-warning",
+    EXCHANGE_US_INDEX: "badge-neutral",
 }
 
 # Required Fields for Order Placement

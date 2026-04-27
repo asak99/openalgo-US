@@ -21,7 +21,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.pool import NullPool
 
-from utils.constants import CRYPTO_EXCHANGES, EXCHANGE_CRYPTO
+from utils.constants import CRYPTO_EXCHANGES, EXCHANGE_CRYPTO, US_EXCHANGES
 from utils.logging import get_logger
 
 # IST Timezone
@@ -48,7 +48,8 @@ Base = declarative_base()
 Base.query = db_session.query_property()
 
 # Supported exchanges
-SUPPORTED_EXCHANGES = ["NSE", "BSE", "NFO", "BFO", "MCX", "BCD", "CDS", "CRYPTO"]
+SUPPORTED_EXCHANGES = ["NSE", "BSE", "NFO", "BFO", "MCX", "BCD", "CDS", "CRYPTO",
+                       "NYSE", "NASDAQ", "AMEX", "US_OPTIONS", "US_INDEX"]
 
 # Holiday types
 HOLIDAY_TYPES = ["TRADING_HOLIDAY", "SETTLEMENT_HOLIDAY", "SPECIAL_SESSION"]
@@ -63,6 +64,13 @@ DEFAULT_MARKET_TIMINGS = {
     "BCD": {"start_offset": 32400000, "end_offset": 61200000},  # 09:00 - 17:00
     "MCX": {"start_offset": 32400000, "end_offset": 86100000},  # 09:00 - 23:55
     "CRYPTO": {"start_offset": 0, "end_offset": 86399000},  # 00:00 - 23:59:59 (24/7)
+    # US Markets - timings in milliseconds from midnight EST
+    # Regular session: 9:30 AM - 4:00 PM ET = 34200000 - 57600000
+    "NYSE": {"start_offset": 34200000, "end_offset": 57600000},     # 09:30 - 16:00 ET
+    "NASDAQ": {"start_offset": 34200000, "end_offset": 57600000},   # 09:30 - 16:00 ET
+    "AMEX": {"start_offset": 34200000, "end_offset": 57600000},     # 09:30 - 16:00 ET
+    "US_OPTIONS": {"start_offset": 34200000, "end_offset": 57600000},  # 09:30 - 16:00 ET
+    "US_INDEX": {"start_offset": 34200000, "end_offset": 57600000},    # 09:30 - 16:00 ET
 }
 
 
